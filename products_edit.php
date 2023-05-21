@@ -13,20 +13,23 @@ if (isset($_POST['title'])) {
     }
     else{
         if ($stm = $connect->prepare('UPDATE products set title = ?, image = ?, price = ? WHERE id = ?')) {
-            $stm->bind_param('sssi', $_POST['title'], $filename, $_POST['price'], $_GET['id']);
+            $title_escape = mysqli_real_escape_string($connect, $_POST['title']);
+            $price_escape = mysqli_real_escape_string($connect, $_POST['price']);
+
+            $stm->bind_param('sssi', $title_escape, $filename, $price_escape, $_GET['id']);
             $stm->execute();
     
             $stm->close();
 
-            $tempname = $_FILES["image"]["tmp_name"]; var_dump($tempname);
+            $tempname = $_FILES["image"]["tmp_name"]; 
             $folder = "./images/" . $filename;
             move_uploaded_file($tempname, $folder);
 
             setMessage("Produkt  " . $_GET['id'] . " został zaktualizowany");
-            header('Location: products.php');
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/products.php'</script>"; 
             die();
     
-        } else {var_dump($_POST['price']);
+        } else {
             echo 'Could not prepare post update statement!';
         }
     }
@@ -50,10 +53,10 @@ if (isset($_GET['id'])) {
             getMessage();
 
             ?>
-            <div class="container mt-5">
+         <div class="container mt-5">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <h1 class="display-1">Edytuj produkt</h1>
+                        <h1 class="sectionHeader">Edytuj produkt</h1>
 
                         <form method="post" enctype="multipart/form-data">
                             <div class="form-outline mb-4">
@@ -61,9 +64,11 @@ if (isset($_GET['id'])) {
                                     value="<?php echo $product['title'] ?>" />
                                 <label class="form-label" for="title">Title</label>
                             </div>
-                            <div class="form-outline mb-4">
-                                <input class="form-control" id="image" accept=".png, .jpg, .jpeg" name="image" type="file" name="uploadfile" value="<?php echo "./images/" . $product['image'] ?>" />
-                                <label class="form-label" for="image">Zdjęcie</label>
+                            <div>
+                                <label class="image-label" for="image">Zdjęcie</label>
+                                <div class="form-outline mb-4">
+                                    <input class="form-control" id="image" accept=".png, .jpg, .jpeg" name="image" type="file" name="uploadfile" value="<?php echo "./images/" . $product['image'] ?>" />
+                                </div>
                             </div>
                             <!--
                                 <div class="form-outline mb-4">
@@ -92,7 +97,7 @@ if (isset($_GET['id'])) {
     }
 
 } else {
-    echo "No user selected";
+    echo "Nie ma zadnego produktu";
     die();
 }
 

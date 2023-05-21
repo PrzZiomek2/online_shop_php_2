@@ -8,11 +8,10 @@ secure();
 if (isset($_GET['delete'])){
     if ($stm = $connect->prepare('DELETE FROM products where id = ?')){
         $stm->bind_param('i',  $_GET['delete']);
-        $stm->execute();
-        
+        $stm->execute();     
 
         setMessage("Produkt  " . $_GET['delete'] . " został usunięty");
-        header('Location: products.php');
+        echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/products.php'</script>"; 
         $stm->close();
         die();
 
@@ -33,8 +32,8 @@ if ($stm = $connect->prepare('SELECT * FROM products')){
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-        <h1 class="display-1">Zarządzanie produktami</h1>
+        <div>
+        <h1 class="sectionHeader">Zarządzanie produktami</h1>
         <table class="table table-striped table-hover">
          <tr>
             <th>ID</th>
@@ -53,7 +52,7 @@ if ($stm = $connect->prepare('SELECT * FROM products')){
         <td><?php echo $record['title']; ?> </td>
         <td><?php echo $record['content']; ?> </td>
         <td><?php echo $record['price']; ?> zł</td>
-        <td>
+        <td class="Products_item_imageCell">
             <div class="Products_item_imgWrapper"><img src="./images/<?php echo $record['image']; ?>"></div>
         </td>
         <td><?php echo $record['added']; ?> </td>
@@ -68,7 +67,9 @@ if ($stm = $connect->prepare('SELECT * FROM products')){
 
         </table>
 
-        <a href="products_add.php"> Dodaj nowy produkt</a>
+        <div class="addItem">
+            <a href="products_add.php"> Dodaj produkt</a>
+        </div>
        
         </div>
 
@@ -82,7 +83,7 @@ if ($stm = $connect->prepare('SELECT * FROM products')){
 
 ?>
 
-    <div>
+    <div class="addItem">
         <a href="products_add.php"> Dodaj produkt</a>
     </div>
     

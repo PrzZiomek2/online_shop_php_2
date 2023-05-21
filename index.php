@@ -19,7 +19,7 @@ include('includes/header.php');
         );
         array_push($_SESSION["cart"], $cartItems);
         setMessage("Produkt " . $_POST['hidden_name'] . " został dodany do koszyka");
-        header("Location: /project_2/"); 
+        echo("<meta http-equiv='refresh' content='1'>");
     }
 
    }
@@ -31,7 +31,7 @@ getMessage();
 ?>
 
 <main>
-   <h2>Oferta</h2>
+    <h2 class="pageTitle">Oferta</h2>
 
    <div style="margin: 20px">
    <section class="shopContent"> 
@@ -43,9 +43,7 @@ getMessage();
                 while ($row = mysqli_fetch_array($result)) {
 
                     ?>
-                    <div class="col-md-3">
-
-                        <form method="post">
+                      <form method="post">
 
                             <div class="product">
                                 <div class="img-responsive"><img src="./images/<?php echo $row['image']; ?>"></div>
@@ -53,13 +51,12 @@ getMessage();
                                 <h5 class="text-danger"><?php echo $row["price"]; ?> zł</h5>
                                 <input type="hidden" name="id" class="form-control" value="<?php echo $row["id"]; ?>">
                                 <input type="hidden" name="image" class="form-control" value="<?php echo $row["image"]; ?>">
-                                <input type="number" name="quantity" class="form-control" value="1">
+                                <input type="number" name="quantity" class="productsAmount" value="1">
                                 <input type="hidden" name="hidden_name" value="<?php echo $row["title"]; ?>">
                                 <input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>">
-                                <input type="submit" name="add" style="margin-top: 5px;" class="btn btn-success"value="Dodaj do koszyka">
+                                <input type="submit" name="add" class="btn submitButton"value="Dodaj do koszyka">
                             </div>
                         </form>
-                    </div>
                     <?php
                 }
             }

@@ -15,8 +15,8 @@ if (isset($_GET["action"])){
 }
 
   if (isset($_GET['clear_cart'])) {
-    $_SESSION["cart"] = array(); var_dump($_SESSION["cart"]);
-   header("Location: cart.php"); 
+    $_SESSION["cart"] = array(); 
+    echo("<meta http-equiv='refresh' content='1'>");
   }
 
 ?>    
@@ -26,16 +26,17 @@ if (isset($_GET["action"])){
 getMessage();
 
 ?>
-<h3 class="title2">Koszyk</h3>
-    <main>
+<h3 class="pageTitle">Koszyk</h3>
+    <main class="cartWrapper">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered pageTable">
             <tr>
                 <th width="30%">Nazwa produktu</th>
                 <th width="13%">Widok</th>
                 <th width="10%">Ilość</th>    
-                <th width="10%">Łączna kwota</th>
+                <th width="20%">Łączna kwota</th>
                 <th width="17%">Usuń</th>
+                <th width="17%">Akcje</th>
             </tr>
 
             <?php             
@@ -45,11 +46,11 @@ getMessage();
                         ?>
                         <tr>
                             <td><?php echo $value["item_name"]; ?></td>
-                            <td><img src="./images/<?php echo $value['image']; ?>"></td>
+                            <td><img class="productImg" src="./images/<?php echo $value['image']; ?>"></td>
                             <td><?php echo $value["item_quantity"]; ?></td>
-                            <td>$ <?php echo $value["product_price"]; ?></td>
+                            <td><?php echo $value["product_price"]; ?> zł</td>
                             <td>
-                                $ <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?></td>
+                                <?php echo number_format($value["item_quantity"] * $value["product_price"], 2); ?> zł</td>
                             <td><a href="Cart.php?action=delete&id=<?php echo $value["product_id"]; ?>"><span
                                         class="text-danger">Usuń produkt</span></a></td>
 
@@ -68,10 +69,12 @@ getMessage();
                 ?>
             </table>
         </div>
-    </main> 
+
         <div class="cart_clear">
                 <a class=class="btn btn-primary" href='cart.php?clear_cart=true'>Wyczyść koszyk</a>      
-        </div>           
+        </div>  
+    </main> 
+               
 <?php
 
 include('includes/footer.php');

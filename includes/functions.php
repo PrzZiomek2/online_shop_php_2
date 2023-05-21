@@ -3,7 +3,7 @@
 function secure(){
    if(!isset($_SESSION['id'])){
       setMessage("Najpierw logowanie");
-      header("Location: /project_2/"); 
+      echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/'</script>";
       die();
    }
 }
@@ -16,7 +16,7 @@ function setMessage($msg){
 
 function getMessage(){
    if(isset($_SESSION['message'])){
-      echo "<p>" . $_SESSION['message'] . "<p/>";
+      echo "<p class='sessionMsg'>" . $_SESSION['message'] . "<p/>";
       unset($_SESSION['message']);
    }
 }

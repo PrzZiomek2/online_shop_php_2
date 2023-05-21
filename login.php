@@ -10,19 +10,23 @@ if(isset($_POST["email"])){
       setMessage("pola email i hasło powinny być wypełnione");
    }else{
       if($stm = $connect -> prepare("SELECT * FROM users WHERE email = ? AND password = ? AND active = 1")){
-         $hashed = SHA1($_POST['password']);
-         $stm -> bind_param("ss", $_POST['email'], $hashed);
+         $pass_escape = mysqli_real_escape_string($connect, $_POST['password']);
+         $email_escape = mysqli_real_escape_string($connect, $_POST['email']);
+
+         $hashed = SHA1($pass_escape);
+         $stm -> bind_param("ss", $email_escape, $hashed);
          $stm -> execute();
          $result = $stm -> get_result();
          $user = $result -> fetch_assoc();
    
          if($user){
             $_SESSION["id"] = $user["id"];
-            $_SESSION["email"] = $user["email"];
+            $_SESSION["email"] = $email_escape;
             $_SESSION["username"] = $user["username"];
+
             setMessage("Pomyślnie zalogowano");
-   
-            header("Location: dashboard.php"); 
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/dashboard.php'</script>"; 
+
             die();
          }
          else{
@@ -46,8 +50,9 @@ getMessage();
  ?>
 <div class="container mt-5">
    <div class="row justify-content-center">
-      <div class="col-md-6">
-         <form method="post">
+      <div class="col-md-6 mt-3">
+         <h4 class="loginTitle">Zaloguj się</h4>
+         <form class="loginForm" method="post">
             <div class="form-outline mb-4">
                <input type="email" id="email" name="email" class="form-control" />
                <label class="form-label" for="email">Email</label>
@@ -62,3 +67,9 @@ getMessage();
    </div>
    </div>
 </div>
+
+<?php
+
+include('includes/footer.php');
+
+?>    

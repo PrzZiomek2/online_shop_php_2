@@ -6,18 +6,21 @@ secure();
 
 if (isset($_POST['username'])){
 
-    if(empty($_POST['username']) || empty($_POST['email']) || $_POST['password']){ 
+    if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])){ 
         setMessage("Wszystkie pola powinny być wypełnione");
     }
     else{
-        if ($stm = $connect->prepare('INSERT INTO users (username,email, password, active) VALUES (?, ?, ?, ?)')){
+        if ($stm = $connect->prepare('INSERT INTO users (username, email, password, active) VALUES (?, ?, ?, ?)')){
+            $name_escape = mysqli_real_escape_string($connect, $_POST['username']);
+            $email_escape = mysqli_real_escape_string($connect, $_POST['email']);
+            $password_escape = mysqli_real_escape_string($connect, $_POST['password']);
         
-            $hashed = SHA1($_POST['password']);
-            $stm->bind_param('ssss', $_POST['username'], $_POST['email'], $hashed,  $_POST['active']);
+            $hashed = SHA1($password_escape);
+            $stm->bind_param('ssss', $name_escape, $email_escape, $hashed,  $_POST['active']);
             $stm->execute();
             
-            setMessage("Nowy użytkownik" . $_SESSION['username'] . " został dodany");
-            header('Location: users.php');
+            setMessage("Nowy użytkownik " . $_POST['username'] . " został dodany");
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/users.php'</script>"; 
             $stm->close();
             die();
     
@@ -38,7 +41,7 @@ getMessage();
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
-        <h1 class="display-1">Dodaj użytkownika</h1>
+        <h1 class="sectionHeader">Dodaj użytkownika</h1>
        
         <form method="post">
                 <div class="form-outline mb-4">

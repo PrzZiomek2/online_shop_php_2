@@ -12,7 +12,7 @@ if (isset($_GET['delete'])){
         
 
         setMessage("A user " . $_GET['delete'] . " został usunięty ");
-        header('Location: users.php');
+        echo("<meta http-equiv='refresh' content='1'>");
         $stm->close();
         die();
 
@@ -34,8 +34,8 @@ if ($stm = $connect->prepare('SELECT * FROM users')){
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-        <h1 class="display-1">Zarządzanie użytkownikami</h1>
+        <div>
+        <h1 class="sectionHeader">Zarządzanie użytkownikami</h1>
         <table class="table table-striped table-hover">
          <tr>
             <th>Id</th>
@@ -63,8 +63,10 @@ if ($stm = $connect->prepare('SELECT * FROM users')){
 
 
         </table>
-
-        <a href="users_add.php"> Dodaj nowego użytkownika</a>
+        
+        <div class="addItem">
+            <a href="users_add.php"> Dodaj nowego użytkownika</a>
+        </div>
        
         </div>
 

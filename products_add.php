@@ -13,16 +13,18 @@ if (isset($_POST['title'])){
     }
     else{
         if ($stm = $connect->prepare('INSERT INTO products (title, image, price) VALUES (?, ?, ?)')){
+            $title_escape = mysqli_real_escape_string($connect, $_POST['title']);
+            $price_escape = mysqli_real_escape_string($connect, $_POST['price']);
         
             $tempname = $_FILES["image"]["tmp_name"];
             $folder = "./images/" . $filename;
             move_uploaded_file($tempname, $folder);
     
-            $stm->bind_param('sss', $_POST['title'], $filename, $_POST['price']);
+            $stm->bind_param('sss', $title_escape, $filename, $price_escape);
             $stm->execute();
     
-            setMessage("Produkt " . $_POST['title'] . " został dodany");
-            header('Location: products.php');
+            setMessage("Produkt " . $title_escape . " został dodany");
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/products.php'</script>"; 
             $stm->close();
             die();
     
@@ -40,10 +42,12 @@ if (isset($_POST['title'])){
 getMessage();
 
  ?>
+
+
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-10">
-        <h1 class="display-1">Dodaj produkt</h1>
+        <div class="col-md-6">
+        <h1 class="sectionHeader">Dodaj produkt</h1>
        
         <form method="post" enctype="multipart/form-data">
                 <div class="form-outline mb-4">
@@ -60,9 +64,11 @@ getMessage();
                             <label class="form-label" for="date">Date</label>
                         </div>
                 -->
-                <div class="form-outline mb-4">
-                    <input class="form-control" id="image" name="image" accept=".png, .jpg, .jpeg" type="file" name="uploadfile" />
-                    <label class="form-label" for="image">Zdjęcie</label>
+                <div>
+                    <label class="image-label" for="image">Zdjęcie</label>
+                    <div class="form-outline mb-4">
+                        <input class="form-control" id="image" name="image" accept=".png, .jpg, .jpeg" type="file" name="uploadfile" />
+                    </div>
                 </div>
                 <div class="form-outline mb-4">
                     <input type="number" id="price" name="price" class="form-control"" />
@@ -75,7 +81,6 @@ getMessage();
 
     </div>
 </div>
-
 <?php
 include('includes/footer.php');
 ?>

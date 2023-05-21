@@ -1,6 +1,6 @@
 <?php
 
-include('includes/functions.php');
+ include('includes/functions.php');
 include('includes/config.php');
 
 if(!isset($_SESSION["cart"])){
@@ -40,21 +40,23 @@ $cartCountNumb = $totalCount ? "(" . $totalCount .")" : "";
     <link rel="stylesheet" href="css/customs/pages/products.css" />
 
     <style>
-
-        #navbarNav{
+          #navbarNav{
           justify-content: flex-end;
         }
 
         .product{
           border: 1px solid #eaeaec;
           margin: 20px;  
-          padding: 10px;
           text-align: center;
           background-color: #b7b5b5;
           border-radius: 10px;
+          padding-top: 20px;
+          padding-bottom: 15px;
+          width: 350px;
         }
 
-        .product img{
+        .product img,
+        .productImg{
           vertical-align: middle;
             width: 100px;
             height: 200px;
@@ -64,20 +66,15 @@ $cartCountNumb = $totalCount ? "(" . $totalCount .")" : "";
         .product h5{
             color: white;
             font-size: 1.45rem;
+            margin-top: 20px;
+            text-transform: capitalize;  
         }
 
         table, th, tr{
           text-align: center;
         }
 
-        .title2{
-          text-align: center;
-          color: #66afe9;
-          background-color: #efefef;
-          padding: 2%;
-        }
-
-        h2{
+        .pageTitle{
           text-align: center;
           color: #89939b;
           background-color: #efefef;
@@ -86,29 +83,134 @@ $cartCountNumb = $totalCount ? "(" . $totalCount .")" : "";
 
         table th{
           background-color: #efefef;
+          font-size: 1.2rem;
+        }
+
+        td{
+          font-size: 1rem;
         }
 
       .shopContent{
           display: flex;
           flex-wrap: wrap;
       }
+
+      .submitButton{
+        margin: 10px 0;
+        background-color: #877e7e;
+        color: white;
+        font-size: 0.8rem;
+      }
+
+      .submitButton:hover{
+        background-color: #e2cece;
+      }
+
+      .productsAmount{
+        margin: 10px auto 15px auto;
+        width: 40%;
+        padding: 0px 5px;
+        border-radius: 5px;
+      }
+
+      .cartWrapper{
+        margin: 40px;
+      }
+
+      .pageTable{
+        border: 2px solid #b7b5b5;
+      }
+
+      tr, th, td{
+        border: 2px solid #b7b5b5;
+      }
+
+      .table-bordered>:not(caption)>*>* {
+          border-width: 2px;
+      }
+
+      .loginForm{
+        border: 2px solid #b7b5b5;
+        margin: 40px;
+        padding: 40px;
+        border-radius: 10px;
+      }
+
+      .loginForm .form-control{
+        border: 1px solid #bdbdbd;
+      }
+
+      .loginTitle{
+        text-align: center;
+      }
+
+      .loginSubmit{
+        margin-top: 40px;
+        font-size: 1rem;
+      }
+
+      .sessionMsg{
+        text-align: center;
+        color: white;
+        margin: 1rem auto;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 0;
+        background: #e56666;
+        font-size: 1.2rem;
+        width: 50%;
+      }
+
+      .sectionHeader{
+        font-weight: 300;
+        letter-spacing: 1px;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 3rem;
+      }
+
+       .sectionHeader-dashboard{
+        margin-bottom: 0px;
+        font-size: 1.5rem;
+      }
+
+      .sectionHeader-dashboard:hover,
+      .addItem a:hover,
+      .cart_clear a:hover{
+        color: #7da6ec;
+      }
+
+      span.sectionHeader-dashboard{
+        margin: 0 10px;
+      }
+
+      .Products_item_imgWrapper img{
+        width: 100%;
+        height: 100%;
+      }
+
+      .Products_item_imageCell{
+        width: 135px;
+      }
+
+      .addItem,
+      .cart_clear{
+        margin: 40px auto;
+      }
+
+      .addItem a,
+      .cart_clear a
+      {
+        font-size: 1.2rem;
+      }
+
     </style>
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Sklep Online</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <i class="fas fa-bars"></i>
-    </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">

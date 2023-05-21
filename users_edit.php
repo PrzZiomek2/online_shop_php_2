@@ -10,14 +10,19 @@ if (isset($_POST['username'])) {
         setMessage("Wszystkie pola powinny być wypełnione");
     }else{
         if ($stm = $connect->prepare('UPDATE users set  username = ?,email = ? , active = ?  WHERE id = ?')) {
-            $stm->bind_param('sssi', $_POST['username'], $_POST['email'], $_POST['active'], $_GET['id']);
+            $name_escape = mysqli_real_escape_string($connect, $_POST['username']);
+            $email_escape = mysqli_real_escape_string($connect, $_POST['email']);
+
+            $stm->bind_param('sssi', $name_escape, $email_escape, $_POST['active'], $_GET['id']);
             $stm->execute();
     
             $stm->close();
     
             if (isset($_POST['password'])) {
                 if ($stm = $connect->prepare('UPDATE users set  password = ? WHERE id = ?')) {
-                    $hashed = SHA1($_POST['password']);
+                    $password_escape = mysqli_real_escape_string($connect, $_POST['password']);
+
+                    $hashed = SHA1($password_escape);
                     $stm->bind_param('si', $hashed, $_GET['id']);
                     $stm->execute();
     
@@ -29,7 +34,7 @@ if (isset($_POST['username'])) {
             }
     
             setMessage("Użytkownik  " . $_GET['id'] . " został zaktualizowany");
-            header('Location: users.php');
+            echo("<meta http-equiv='refresh' content='1'>");
             die();
     
         } else {
@@ -60,7 +65,7 @@ if (isset($_GET['id'])) {
             <div class="container mt-5">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
-                        <h1 class="display-1">Edytuj użytkownika</h1>
+                        <h1 class="sectionHeader">Edytuj użytkownika</h1>
 
                         <form method="post">
                             <div class="form-outline mb-4">
