@@ -24,7 +24,7 @@ if (isset($_POST['title'])){
             $stm->execute();
     
             setMessage("Produkt " . $title_escape . " został dodany");
-            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/products.php'</script>"; 
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/login.php'</script>"; 
             $stm->close();
             die();
     
