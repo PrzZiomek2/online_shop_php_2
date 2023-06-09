@@ -233,8 +233,10 @@ $cartCountNumb = $totalCount ? "(" . $totalCount .")" : "";
             <a class="nav-link" href="logout.php">Wyloguj</a>
           <?php
             }
-          ?>
-          
+          ?>        
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="users_add.php">Rejestracja</a>
         </li>
       </ul>
     </div>

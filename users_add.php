@@ -2,7 +2,6 @@
 
 include('includes/database.php');
 include('includes/header.php');
-secure();
 
 if (isset($_POST['username'])){
 
@@ -20,7 +19,7 @@ if (isset($_POST['username'])){
             $stm->execute();
             
             setMessage("Nowy użytkownik " . $_POST['username'] . " został dodany");
-            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/users.php'</script>"; 
+            echo "<script type='text/javascript'>window.location.href='http://localhost/project_2/login.php'</script>"; 
             $stm->close();
             die();
     
